@@ -14,8 +14,8 @@ class LogoWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(
             'assets/images/images-totem/logo.png',
-            width: 150,
-            height: 150,
+            width: 125,
+            height: 125,
             fit: BoxFit.contain,
           ),
         ),

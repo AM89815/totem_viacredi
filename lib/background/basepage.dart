@@ -30,8 +30,8 @@ class BasePage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   constraints: const BoxConstraints(
-                    maxWidth: 300,
-                    maxHeight: 300,
+                    maxWidth: 250,
+                    maxHeight: 250,
                   ),
                   child: Image.asset(
                     'assets/images/images-totem/desenho.png',

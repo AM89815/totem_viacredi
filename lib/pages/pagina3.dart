@@ -51,7 +51,7 @@ class Pagina3 extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/fifth');
+                    Navigator.pushNamed(context, '/sixth');
                   },
                   child: const Text('Não'),
                 ),

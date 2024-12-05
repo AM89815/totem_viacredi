@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totem/background/basepage.dart';
@@ -31,55 +29,58 @@ class _Pagina2State extends State<Pagina2> {
   Widget build(BuildContext context) {
     return BasePage(
       showLogo: false,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Text(
-              'Ambiente do Posto de Atendimento',
-              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.all(0.0),
+              child: Text(
+                'Ambiente do Posto de Atendimento',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          quantEstrelasRow(0),
-          const SizedBox(height: 20), // espaçamento
+            quantEstrelasRow(0),
+            const SizedBox(height: 5), // espaçamento
 
-          const Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Text(
-              'Atendimento dos colaboradores',
-              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            const Padding(
+              padding: EdgeInsets.all(0.0),
+              child: Text(
+                'Atendimento dos colaboradores',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          quantEstrelasRow(1),
-          const SizedBox(height: 20), // espaçamento
+            quantEstrelasRow(1),
+            const SizedBox(height: 5), // espaçamento
 
-          const Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Text(
-              'Tempo de espera',
-              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            const Padding(
+              padding: EdgeInsets.all(0.0),
+              child: Text(
+                'Tempo de espera',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          quantEstrelasRow(2),
-          const SizedBox(height: 20), // espaçamento
+            quantEstrelasRow(2),
+            const SizedBox(height: 20), // espaçamento
 
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFFF9A825),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
-              textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFF9A825),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+                textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+              onPressed: selectEstrelas.every((estrela) => estrela > 0)
+                  ? () async {
+                      await addEstrelas(selectEstrelas); // manda as estrelas pro Firestore
+                      Navigator.pushNamed(context, '/third');
+                    }
+                  : null,
+              child: const Text('Enviar'),
             ),
-            onPressed: selectEstrelas.every((estrela) => estrela > 0)
-                ? () async {
-                    await addEstrelas(selectEstrelas); // manda as estrelas pro Firestore
-                    Navigator.pushNamed(context, '/third');
-                  }
-                : null,
-            child: const Text('Enviar'),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -94,8 +95,8 @@ class _Pagina2State extends State<Pagina2> {
             selectEstrelas[index] > estrelaIndex
                 ? 'assets/images/images-totem/estrela_active.png'
                 : 'assets/images/images-totem/starlight.png',
-            width: 100,
-            height: 100,
+            width: 90,
+            height: 90,
           ),
           onPressed: () {
             setState(() {

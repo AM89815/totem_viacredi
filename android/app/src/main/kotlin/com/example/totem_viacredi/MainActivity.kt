@@ -1,4 +1,4 @@
-package com.example.totem
+package com.example.totem_viacredi
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -57,16 +57,12 @@ class _Pagina5State extends State<Pagina5> {
                               textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                             ),
                             onPressed: () async {
-                              if (_comentarioController.text.isNotEmpty) {
-                                await addComentario(_comentarioController.text); // adiciona o comentário ao Firestore
-                                Navigator.pushNamed(context, '/sixth');
-                              } else {
-                                print("Comentário vazio. Por favor, insira um comentário.");
-                              }
-                            },
+                              await addComentario(_comentarioController.text); // adiciona o comentário ao Firestore
+                              Navigator.pushNamed(context, '/sixth');
+                              },
                             child: const Text('Finalizar comentário'),
                           ),
-                        ],
+                        ]
                       ),
                       const SizedBox(height: 20), // espaçamento
                       Padding(
