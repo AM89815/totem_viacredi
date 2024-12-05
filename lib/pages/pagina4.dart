@@ -51,7 +51,7 @@ class _Pagina4State extends State<Pagina4> {
     return firstDigit == int.parse(cpf[9]) && secondDigit == int.parse(cpf[10]);
   }
 
-  void _numeroBotaoPressionado(String number) {
+  void _numeroBotaoPressionado(String numero) {
     setState(() {
       if (_cpfController.text.length < 14) {
         if (_cpfController.text.length == 3 || _cpfController.text.length == 7) {
@@ -59,8 +59,9 @@ class _Pagina4State extends State<Pagina4> {
         } else if (_cpfController.text.length == 11) {
           _cpfController.text += '-';
         }
-        _cpfController.text += number;
+        _cpfController.text += numero;
       }
+      _errorMessage = ''; // limpa a mensagem de erro ao digitar
     });
   }
 
@@ -79,70 +80,91 @@ class _Pagina4State extends State<Pagina4> {
   Widget build(BuildContext context) {
     return BasePage(
       showLogo: true,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(flex: 5), // espaçamento
-            SizedBox(
-              width: 532,
-              child: TextField(
-                controller: _cpfController,
-                readOnly: true, // evita que o teclado do dispositivo apareça
-                decoration: InputDecoration(
-                  hintText: 'Digite seu CPF',
-                  errorText: _errorMessage.isEmpty ? null : _errorMessage,
-                  border: const OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 160), // espaçamento
+              Container(
+                width: 500, // ajusta o tamanho do Container
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color.fromRGBO(2, 119, 189, 1), width: 4.0),
+                  borderRadius: BorderRadius.circular(40.0),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextField(
+                        controller: _cpfController,
+                        readOnly: true, // evita que o teclado do dispositivo apareça
+                        style: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(2, 119, 189, 1),
+                        ),
+                        textAlign: TextAlign.center, // centraliza o texto
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(4.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5), // espaçamento
+                    _numeroConstrutorPad(),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10), // espaçamento
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xFFF9A825),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+                      textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () async {
+                      if (_isValidCPF(_cpfController.text)) {
+                        await addCpf(_cpfController.text); // adiciona o CPF ao Firestore
+                        Navigator.pushNamed(context, '/fifth');
+                      } else {
+                        setState(() {
+                          _errorMessage = 'CPF inválido. Por favor, insira um CPF válido.';
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(_errorMessage),
+                            backgroundColor: Colors.red,
+                          ));
+                        });
+                      }
+                    },
+                    child: const Text('Enviar'),
+                  ),
+                ],
+              ),
+              Visibility(
+                visible: _errorMessage.isNotEmpty,
+                child: Container(
+                  width: 500, // ajusta a largura do Container
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.red,
+                  child: Text(
+                    _errorMessage,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 5),
-            _numeroConstrutorPad(),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF66BB6A),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
-                    textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                    });
-                  },
-                  child: const Text('Voltar'),
-                ),
-                const SizedBox(width: 20), // espaçamento entre os botões
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFFF9A825),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
-                    textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () async {
-                    if (_isValidCPF(_cpfController.text)) {
-                      await addCpf(_cpfController.text); // adiciona o CPF ao Firestore
-                      Navigator.pushNamed(context, '/fifth');
-                    } else {
-                      setState(() {
-                        _errorMessage = 'CPF inválido. Por favor, insira um CPF válido.';
-                      });
-                    }
-                  },
-                  child: const Text('Enviar'),
-                ),
-              ],
-            ),
-            const Spacer(flex: 1), // espaçamento
-          ],
+              const SizedBox(height: 10), // espaçamento
+            ],
+          ),
         ),
       ),
     );
@@ -160,27 +182,27 @@ class _Pagina4State extends State<Pagina4> {
     );
   }
 
-  Widget _numeroConstrutorRow(List<String> numbers) {
+  Widget _numeroConstrutorRow(List<String> numeros) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: numbers.map((number) {
+      children: numeros.map((numero) {
         return Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(5.0),
           child: ElevatedButton(
-            onPressed: number == '<'
+            onPressed: numero == '<'
                 ? _onBackspacePressionado
-                : () => _numeroBotaoPressionado(number),
+                : () => _numeroBotaoPressionado(numero),
             style: ElevatedButton.styleFrom(
-              minimumSize: const Size(180, 80),
+              minimumSize: const Size(130, 70),
               backgroundColor: const Color.fromRGBO(2, 119, 189, 1),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            child: number == '<'
+            child: numero == '<'
                 ? const Icon(Icons.backspace, size: 40, color: Colors.white)
                 : Text(
-                    number,
+                    numero,
                     style: const TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,

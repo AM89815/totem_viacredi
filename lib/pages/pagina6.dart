@@ -23,39 +23,50 @@ class _Pagina6State extends State<Pagina6> {
       );
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BasePage(
       showLogo: true,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Obrigado!',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 150,
-                fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 200), // espaçamento
+              const Text(
+                'Obrigado!',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 150,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            RichText(
-              textAlign: TextAlign.center,
-              text: const TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Seus dados foram enviados com ',
-                    style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                    text: 'sucesso!',
-                    style: TextStyle(color:Color(0xFFF9A825), fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              const SizedBox(height: 10),
+              RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Seus dados foram enviados com ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: 'sucesso!',
+                      style: TextStyle(
+                          color: Color(0xFFF9A825),
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

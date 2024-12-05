@@ -27,72 +27,81 @@ class _Pagina5State extends State<Pagina5> {
   Widget build(BuildContext context) {
     return BasePage(
       showLogo: true,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 175), // espaçamento
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Deixe seu comentário',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 250), // espaçamento entre o texto e o botão
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xFF66BB6A),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40.0,
+                        vertical: 30.0,
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () async {
+                      await addComentario(_comentarioController.text); // adiciona o comentário ao Firestore
+                      Navigator.pushNamed(context, '/sixth');
+                    },
+                    child: const Text('Finalizar comentário'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20), // espaçamento
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 100.0,
+                  vertical: 0.0,
                 ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Spacer(flex: 4), // espaçamento
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Deixe seu comentário',
-                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(width: 235), // espaçamento entre o texto e o botão
-                          FilledButton(
-                            style: FilledButton.styleFrom(
-                              backgroundColor: const Color(0xFF66BB6A),
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
-                              textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () async {
-                              await addComentario(_comentarioController.text); // adiciona o comentário ao Firestore
-                              Navigator.pushNamed(context, '/sixth');
-                              },
-                            child: const Text('Finalizar comentário'),
-                          ),
-                        ]
+                child: TextField(
+                  controller: _comentarioController,
+                  maxLines: 7,
+                  style: const TextStyle(fontSize: 28),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20),
+                    hintText: 'Digite seu comentário aqui...',
+                    hintStyle: const TextStyle(fontSize: 28),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
                       ),
-                      const SizedBox(height: 20), // espaçamento
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 0.0),
-                        child: TextField(
-                          controller: _comentarioController,
-                          maxLines: 8,
-                          style: const TextStyle(fontSize: 28),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(20),
-                            hintText: 'Digite seu comentário aqui...',
-                            hintStyle: const TextStyle(fontSize: 28),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-                            ),
-                          ),
-                        ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50.0),
                       ),
-                      const Spacer(flex: 1), // espaçamento
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+              const SizedBox(height: 100), // espaçamento
+            ],
+          ),
+        ),
       ),
     );
   }

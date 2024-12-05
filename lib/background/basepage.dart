@@ -20,8 +20,6 @@ class BasePage extends StatelessWidget {
               ),
             ),
           ),
-          if (showLogo)
-            const LogoWidget(),
           Positioned(
             top: -15,
             right: -15,
@@ -41,6 +39,8 @@ class BasePage extends StatelessWidget {
               ),
             ),
           ),
+          if (showLogo)
+          const LogoWidget(),
           SafeArea(
             child: child,
           ),
