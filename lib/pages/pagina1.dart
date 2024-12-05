@@ -41,7 +41,7 @@ class _Pagina1State extends State<Pagina1> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return BasePage(
       showLogo: true, // exibe a logo nesta página
       child: Center(
