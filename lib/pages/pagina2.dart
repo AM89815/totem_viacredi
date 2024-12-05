@@ -62,7 +62,7 @@ class _Pagina2State extends State<Pagina2> {
               ),
             ),
             quantEstrelasRow(2),
-            const SizedBox(height: 20), // espaçamento
+            const SizedBox(height: 25), // espaçamento
 
             FilledButton(
               style: FilledButton.styleFrom(

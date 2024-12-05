@@ -39,7 +39,7 @@ class _Pagina5State extends State<Pagina5> {
             children: [
               const SizedBox(height: 175), // espaçamento
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const Text(
                     'Deixe seu comentário',
@@ -48,7 +48,6 @@ class _Pagina5State extends State<Pagina5> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(width: 250), // espaçamento entre o texto e o botão
                   FilledButton(
                     style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFF66BB6A),
@@ -70,10 +69,10 @@ class _Pagina5State extends State<Pagina5> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // espaçamento
+              const SizedBox(height: 25), // espaçamento
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 100.0,
+                  horizontal: 50.0,
                   vertical: 0.0,
                 ),
                 child: TextField(
@@ -98,7 +97,6 @@ class _Pagina5State extends State<Pagina5> {
                   ),
                 ),
               ),
-              const SizedBox(height: 100), // espaçamento
             ],
           ),
         ),

@@ -54,23 +54,27 @@ class _Pagina4State extends State<Pagina4> {
   void _numeroBotaoPressionado(String numero) {
     setState(() {
       if (_cpfController.text.length < 14) {
-        if (_cpfController.text.length == 3 || _cpfController.text.length == 7) {
+        if (_cpfController.text.length == 3 ||
+            _cpfController.text.length == 7) {
           _cpfController.text += '.';
         } else if (_cpfController.text.length == 11) {
           _cpfController.text += '-';
         }
         _cpfController.text += numero;
       }
-      _errorMessage = ''; // limpa a mensagem de erro ao digitar
+      _errorMessage = ''; // limpa a mensagem de erro
     });
   }
 
   void _onBackspacePressionado() {
     setState(() {
       if (_cpfController.text.isNotEmpty) {
-        _cpfController.text = _cpfController.text.substring(0, _cpfController.text.length - 1);
-        if (_cpfController.text.endsWith('.') || _cpfController.text.endsWith('-')) {
-          _cpfController.text = _cpfController.text.substring(0, _cpfController.text.length - 1);
+        _cpfController.text =
+            _cpfController.text.substring(0, _cpfController.text.length - 1);
+        if (_cpfController.text.endsWith('.') ||
+            _cpfController.text.endsWith('-')) {
+          _cpfController.text =
+              _cpfController.text.substring(0, _cpfController.text.length - 1);
         }
       }
     });
@@ -88,10 +92,11 @@ class _Pagina4State extends State<Pagina4> {
             children: [
               const SizedBox(height: 160), // espaçamento
               Container(
-                width: 500, // ajusta o tamanho do Container
+                width: 500,
                 decoration: BoxDecoration(
-                  border: Border.all(color: const Color.fromRGBO(2, 119, 189, 1), width: 4.0),
-                  borderRadius: BorderRadius.circular(40.0),
+                  border: Border.all(
+                      color: const Color.fromRGBO(2, 119, 189, 1), width: 4.0),
+                  borderRadius: BorderRadius.circular(50.0),
                 ),
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -100,7 +105,8 @@ class _Pagina4State extends State<Pagina4> {
                       width: double.infinity,
                       child: TextField(
                         controller: _cpfController,
-                        readOnly: true, // evita que o teclado do dispositivo apareça
+                        readOnly:
+                            true, // evita que o teclado do dispositivo apareça
                         style: const TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
@@ -125,16 +131,20 @@ class _Pagina4State extends State<Pagina4> {
                     style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFFF9A825),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
-                      textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40.0, vertical: 30.0),
+                      textStyle: const TextStyle(
+                          fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () async {
                       if (_isValidCPF(_cpfController.text)) {
-                        await addCpf(_cpfController.text); // adiciona o CPF ao Firestore
+                        await addCpf(
+                            _cpfController.text); // adiciona o CPF ao Firestore
                         Navigator.pushNamed(context, '/fifth');
                       } else {
                         setState(() {
-                          _errorMessage = 'CPF inválido. Por favor, insira um CPF válido.';
+                          _errorMessage =
+                              'CPF inválido. Por favor, insira um CPF válido.';
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(_errorMessage),
                             backgroundColor: Colors.red,
@@ -148,17 +158,12 @@ class _Pagina4State extends State<Pagina4> {
               ),
               Visibility(
                 visible: _errorMessage.isNotEmpty,
-                child: Container(
-                  width: 500, // ajusta a largura do Container
-                  padding: const EdgeInsets.all(8.0),
-                  color: Colors.red,
-                  child: Text(
-                    _errorMessage,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                    ),
+                child: Text(
+                  _errorMessage,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    fontSize: 40,
+                    color: Colors.white,
                   ),
                 ),
               ),

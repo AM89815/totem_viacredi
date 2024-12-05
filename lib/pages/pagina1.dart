@@ -87,7 +87,7 @@ class _Pagina1State extends State<Pagina1> {
                   );
                 }),
               ),
-              const SizedBox(height: 45), // espaçamento
+              const SizedBox(height: 25), // espaçamento
               FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color.fromRGBO(2, 119, 189, 1),
