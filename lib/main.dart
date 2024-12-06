@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:totem/feedbackdata.dart';
 import 'package:totem/pages/pagina1.dart';
 import 'package:totem/pages/pagina2.dart';
 import 'package:totem/pages/pagina3.dart';
@@ -16,17 +17,18 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(MaterialApp(
     title: 'Totem Viacredi',
     debugShowCheckedModeBanner: false,
     initialRoute: '/',
     routes: {
-      '/': (context) => const Pagina1(),
-      '/second': (context) => const Pagina2(),
-      '/third': (context) => const Pagina3(),
-      '/forth': (context) => const Pagina4(),
-      '/fifth': (context) => const Pagina5(),
-      '/sixth': (context) => const Pagina6(),
+      '/': (context) => Pagina1(feedbackData: FeedbackData()),
+      '/second': (context) => Pagina2(feedbackData: ModalRoute.of(context)!.settings.arguments as FeedbackData),
+      '/third': (context) => Pagina3(feedbackData: ModalRoute.of(context)!.settings.arguments as FeedbackData),
+      '/forth': (context) => Pagina4(feedbackData: ModalRoute.of(context)!.settings.arguments as FeedbackData),
+      '/fifth': (context) => Pagina5(feedbackData: ModalRoute.of(context)!.settings.arguments as FeedbackData),
+      '/sixth': (context) => Pagina6(feedbackData: ModalRoute.of(context)!.settings.arguments as FeedbackData),
     },
   ));
 }

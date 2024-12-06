@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totem/background/basepage.dart';
+import 'package:totem/feedbackdata.dart';
 
 class Pagina2 extends StatefulWidget {
-  const Pagina2({super.key});
+  final FeedbackData feedbackData;
+
+  const Pagina2({required this.feedbackData, super.key});
 
   @override
   _Pagina2State createState() => _Pagina2State();
@@ -11,19 +13,6 @@ class Pagina2 extends StatefulWidget {
 
 class _Pagina2State extends State<Pagina2> {
   List<int> selectEstrelas = [0, 0, 0];
-
-  Future<void> addEstrelas(List<int> estrelas) async {
-    await FirebaseFirestore.instance.collection('feedback').add({
-      'ambiente': estrelas[0],
-      'atendimento': estrelas[1],
-      'tempo_espera': estrelas[2],
-      'timestamp': FieldValue.serverTimestamp(),
-    }).then((value) {
-      print("Dados coletados (página 2)");
-    }).catchError((error) {
-      print("Falha ao coletar os dados (página 2): $error");
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +61,9 @@ class _Pagina2State extends State<Pagina2> {
                 textStyle: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
               onPressed: selectEstrelas.every((estrela) => estrela > 0)
-                  ? () async {
-                      await addEstrelas(selectEstrelas); // manda as estrelas pro Firestore
-                      Navigator.pushNamed(context, '/third');
+                  ? () {
+                      widget.feedbackData.estrelas = selectEstrelas; // armazena as estrelas
+                      Navigator.pushNamed(context, '/third', arguments: widget.feedbackData);
                     }
                   : null,
               child: const Text('Enviar'),

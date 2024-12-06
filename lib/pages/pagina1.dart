@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totem/background/basepage.dart';
+import 'package:totem/feedbackdata.dart';
 
 final List<Color> buttonColors = [
   Colors.red,
@@ -17,7 +17,9 @@ final List<Color> buttonColors = [
 ];
 
 class Pagina1 extends StatefulWidget {
-  const Pagina1({super.key});
+  final FeedbackData feedbackData;
+
+  const Pagina1({required this.feedbackData, super.key});
 
   @override
   _Pagina1State createState() => _Pagina1State();
@@ -26,21 +28,10 @@ class Pagina1 extends StatefulWidget {
 class _Pagina1State extends State<Pagina1> {
   int selectNota = -1;
 
-  Future<void> addNota(int nota) async {
-    await FirebaseFirestore.instance.collection('feedback').add({
-      'nota': nota,
-      'timestamp': FieldValue.serverTimestamp(),
-    }).then((value) {
-      print("Dados coletados (página 1)");
-    }).catchError((error) {
-      print("Falha ao coletar os dados (página 1): $error");
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BasePage(
-      showLogo: true, // exibe a logo nesta página
+      showLogo: true,
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Center(
@@ -100,9 +91,9 @@ class _Pagina1State extends State<Pagina1> {
                 ),
                 onPressed: selectNota == -1
                     ? null
-                    : () async {
-                        await addNota(selectNota); // adiciona a nota ao Firestore
-                        Navigator.pushNamed(context, '/second');
+                    : () {
+                        widget.feedbackData.nota = selectNota; // armazena a nota
+                        Navigator.pushNamed(context, '/second', arguments: widget.feedbackData);
                       },
                 child: const Text('Enviar'),
               ),

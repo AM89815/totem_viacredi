@@ -1,9 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:totem/background/basepage.dart';
+import 'package:totem/feedbackdata.dart';
 
 class Pagina4 extends StatefulWidget {
-  const Pagina4({super.key});
+  final FeedbackData feedbackData;
+
+  const Pagina4({required this.feedbackData, super.key});
 
   @override
   _Pagina4State createState() => _Pagina4State();
@@ -12,17 +14,6 @@ class Pagina4 extends StatefulWidget {
 class _Pagina4State extends State<Pagina4> {
   final TextEditingController _cpfController = TextEditingController();
   String _errorMessage = '';
-
-  Future<void> addCpf(String cpf) async {
-    await FirebaseFirestore.instance.collection('feedback').add({
-      'cpf': cpf,
-      'timestamp': FieldValue.serverTimestamp(),
-    }).then((value) {
-      print("Dados coletados (página 4)");
-    }).catchError((error) {
-      print("Falha ao coletar os dados (página 4): $error");
-    });
-  }
 
   bool _isValidCPF(String cpf) {
     // remove caracteres que não são números
@@ -136,11 +127,10 @@ class _Pagina4State extends State<Pagina4> {
                       textStyle: const TextStyle(
                           fontSize: 40, fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () async {
+                    onPressed: () {
                       if (_isValidCPF(_cpfController.text)) {
-                        await addCpf(
-                            _cpfController.text); // adiciona o CPF ao Firestore
-                        Navigator.pushNamed(context, '/fifth');
+                        widget.feedbackData.cpf = _cpfController.text; // armazena o CPF
+                        Navigator.pushNamed(context, '/fifth', arguments: widget.feedbackData);
                       } else {
                         setState(() {
                           _errorMessage =

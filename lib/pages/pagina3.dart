@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:totem/background/basepage.dart';
+import 'package:totem/feedbackdata.dart';
 
 class Pagina3 extends StatelessWidget {
-  const Pagina3({super.key});
+  final FeedbackData feedbackData;
+
+  const Pagina3({required this.feedbackData, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class Pagina3 extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/forth');
+                      Navigator.pushNamed(context, '/forth', arguments: feedbackData);
                     },
                     child: const Text('Sim'),
                   ),
@@ -53,7 +56,7 @@ class Pagina3 extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/sixth');
+                      Navigator.pushNamed(context, '/sixth', arguments: feedbackData);
                     },
                     child: const Text('Não'),
                   ),

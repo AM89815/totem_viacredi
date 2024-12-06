@@ -1,9 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:totem/background/basepage.dart';
+import 'package:totem/feedbackdata.dart';
 
 class Pagina5 extends StatefulWidget {
-  const Pagina5({super.key});
+  final FeedbackData feedbackData;
+
+  const Pagina5({required this.feedbackData, super.key});
 
   @override
   _Pagina5State createState() => _Pagina5State();
@@ -11,17 +13,6 @@ class Pagina5 extends StatefulWidget {
 
 class _Pagina5State extends State<Pagina5> {
   final TextEditingController _comentarioController = TextEditingController();
-
-  Future<void> addComentario(String comentario) async {
-    await FirebaseFirestore.instance.collection('feedback').add({
-      'comentario': comentario,
-      'timestamp': FieldValue.serverTimestamp(),
-    }).then((value) {
-      print("Dados coletados (página 5)");
-    }).catchError((error) {
-      print("Falha ao coletar os dados (página 5): $error");
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +52,9 @@ class _Pagina5State extends State<Pagina5> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onPressed: () async {
-                      await addComentario(_comentarioController.text); // adiciona o comentário ao Firestore
-                      Navigator.pushNamed(context, '/sixth');
+                    onPressed: () {
+                      widget.feedbackData.comentario = _comentarioController.text; // armazena o comentario
+                      Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
                     },
                     child: const Text('Finalizar comentário'),
                   ),
