@@ -18,10 +18,10 @@ class _Pagina3State extends State<Pagina3> {
   @override
   void initState() {
     super.initState();
-    _startInactivityTimer();
+    _startInatividadeTimer();
   }
 
-  void _startInactivityTimer() {
+  void _startInatividadeTimer() {
     _timer = Timer(Duration(seconds: 5), () {
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -29,9 +29,9 @@ class _Pagina3State extends State<Pagina3> {
     });
   }
 
-  void _resetInactivityTimer() {
+  void _resetInatividadeTimer() {
     _timer?.cancel();
-    _startInactivityTimer();
+    _startInatividadeTimer();
   }
 
   @override
@@ -46,8 +46,8 @@ class _Pagina3State extends State<Pagina3> {
       showLogo: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: _resetInactivityTimer,
-        onPanDown: (_) => _resetInactivityTimer(),
+        onTap: _resetInatividadeTimer,
+        onPanDown: (_) => _resetInatividadeTimer(),
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Center(

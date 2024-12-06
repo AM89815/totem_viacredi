@@ -30,7 +30,7 @@ class _Pagina1State extends State<Pagina1> {
   int selectNota = -1;
   Timer? _timer;
 
-  void _startInactivityTimer() {
+  void _startInatividadeTimer() {
     _timer = Timer(Duration(seconds: 5), () {
       if (mounted) {
         setState(() {
@@ -41,9 +41,9 @@ class _Pagina1State extends State<Pagina1> {
     });
   }
 
-  void _resetInactivityTimer() {
+  void _resetInatividadeTimer() {
     _timer?.cancel();
-    _startInactivityTimer();
+    _startInatividadeTimer();
   }
 
   void _onButtonPressed(int nota) {
@@ -52,7 +52,7 @@ class _Pagina1State extends State<Pagina1> {
       widget.feedbackData.nota = selectNota;
       print('Pagina1 button pressed, selectNota: $selectNota');
     });
-    _resetInactivityTimer();
+    _resetInatividadeTimer();
   }
 
   @override
