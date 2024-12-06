@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:totem/background/basepage.dart';
 import 'package:totem/feedbackdata.dart';
+import 'dart:async';
 
 class Pagina4 extends StatefulWidget {
   final FeedbackData feedbackData;
@@ -14,6 +15,32 @@ class Pagina4 extends StatefulWidget {
 class _Pagina4State extends State<Pagina4> {
   final TextEditingController _cpfController = TextEditingController();
   String _errorMessage = '';
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startInactivityTimer();
+  }
+
+  void _startInactivityTimer() {
+    _timer = Timer(Duration(seconds: 10), () {
+      if (mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
+  }
+
+  void _resetInactivityTimer() {
+    _timer?.cancel();
+    _startInactivityTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   bool _isValidCPF(String cpf) {
     // remove caracteres que não são números
@@ -75,90 +102,97 @@ class _Pagina4State extends State<Pagina4> {
   Widget build(BuildContext context) {
     return BasePage(
       showLogo: true,
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 160), // espaçamento
-              Container(
-                width: 500,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: const Color.fromRGBO(2, 119, 189, 1), width: 4.0),
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: TextField(
-                        controller: _cpfController,
-                        readOnly:
-                            true, // evita que o teclado do dispositivo apareça
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(2, 119, 189, 1),
-                        ),
-                        textAlign: TextAlign.center, // centraliza o texto
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(4.0),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _resetInactivityTimer,
+        onPanDown: (_) => _resetInactivityTimer(),
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 160), // espaçamento
+                Container(
+                  width: 500,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: const Color.fromRGBO(2, 119, 189, 1), width: 4.0),
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _cpfController,
+                          readOnly: true, // evita que o teclado do dispositivo apareça
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(2, 119, 189, 1),
+                          ),
+                          textAlign: TextAlign.center, // centraliza o texto
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.all(4.0),
+                          ),
                         ),
                       ),
+                      const SizedBox(height: 5), // espaçamento
+                      _numeroConstrutorPad(),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10), // espaçamento
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xFFF9A825),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 30.0),
+                        textStyle: const TextStyle(
+                            fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        if (_isValidCPF(_cpfController.text)) {
+                          widget.feedbackData.cpf =
+                              _cpfController.text; // armazena o CPF
+                          Navigator.pushNamed(context, '/fifth',
+                              arguments: widget.feedbackData);
+                        } else {
+                          setState(() {
+                            _errorMessage =
+                                'CPF inválido. Por favor, insira um CPF válido.';
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(_errorMessage),
+                              backgroundColor: Colors.red,
+                            ));
+                          });
+                        }
+                      },
+                      child: const Text('Enviar'),
                     ),
-                    const SizedBox(height: 5), // espaçamento
-                    _numeroConstrutorPad(),
                   ],
                 ),
-              ),
-              const SizedBox(height: 10), // espaçamento
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFF9A825),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40.0, vertical: 30.0),
-                      textStyle: const TextStyle(
-                          fontSize: 40, fontWeight: FontWeight.bold),
+                Visibility(
+                  visible: _errorMessage.isNotEmpty,
+                  child: Text(
+                    _errorMessage,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      fontSize: 40,
+                      color: Colors.white,
                     ),
-                    onPressed: () {
-                      if (_isValidCPF(_cpfController.text)) {
-                        widget.feedbackData.cpf = _cpfController.text; // armazena o CPF
-                        Navigator.pushNamed(context, '/fifth', arguments: widget.feedbackData);
-                      } else {
-                        setState(() {
-                          _errorMessage =
-                              'CPF inválido. Por favor, insira um CPF válido.';
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(_errorMessage),
-                            backgroundColor: Colors.red,
-                          ));
-                        });
-                      }
-                    },
-                    child: const Text('Enviar'),
-                  ),
-                ],
-              ),
-              Visibility(
-                visible: _errorMessage.isNotEmpty,
-                child: Text(
-                  _errorMessage,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                    fontSize: 40,
-                    color: Colors.white,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10), // espaçamento
-            ],
+                const SizedBox(height: 10), // espaçamento
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:totem/background/basepage.dart';
 import 'package:totem/feedbackdata.dart';
+import 'dart:async';
 
 final List<Color> buttonColors = [
   Colors.red,
@@ -27,6 +28,38 @@ class Pagina1 extends StatefulWidget {
 
 class _Pagina1State extends State<Pagina1> {
   int selectNota = -1;
+  Timer? _timer;
+
+  void _startInactivityTimer() {
+    _timer = Timer(Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          selectNota = -1; // Reseta a seleção dos botões
+        });
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
+  }
+
+  void _resetInactivityTimer() {
+    _timer?.cancel();
+    _startInactivityTimer();
+  }
+
+  void _onButtonPressed(int nota) {
+    setState(() {
+      selectNota = nota;
+      widget.feedbackData.nota = selectNota;
+      print('Pagina1 button pressed, selectNota: $selectNota');
+    });
+    _resetInactivityTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,33 +90,39 @@ class _Pagina1State extends State<Pagina1> {
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: selectNota == nota ? Colors.grey : buttonColors[nota],
+                          backgroundColor: selectNota == nota
+                              ? Colors.grey
+                              : buttonColors[nota],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          minimumSize: const Size(125, 125)
+                          minimumSize: const Size(125, 125),
                         ),
                         onPressed: () {
-                          setState(() {
-                            selectNota = nota;
-                          });
+                          _onButtonPressed(nota);
                         },
                         child: Text(
                           '$nota',
-                          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   );
                 }),
               ),
-              const SizedBox(height: 25), // espaçamento
+              const SizedBox(height: 40), // espaçamento
               FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color.fromRGBO(2, 119, 189, 1),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 30.0,
+                  ),
                   textStyle: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -92,8 +131,9 @@ class _Pagina1State extends State<Pagina1> {
                 onPressed: selectNota == -1
                     ? null
                     : () {
-                        widget.feedbackData.nota = selectNota; // armazena a nota
-                        Navigator.pushNamed(context, '/second', arguments: widget.feedbackData);
+                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        Navigator.pushNamed(context, '/second',
+                            arguments: widget.feedbackData);
                       },
                 child: const Text('Enviar'),
               ),
