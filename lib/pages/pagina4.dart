@@ -158,7 +158,7 @@ class _Pagina4State extends State<Pagina4> {
                             fontSize: 40, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        _timer?.cancel(); // cancela o temporizador
                         if (_isValidCPF(_cpfController.text)) {
                           widget.feedbackData.cpf =
                               _cpfController.text; // armazena o CPF

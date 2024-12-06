@@ -79,7 +79,7 @@ class _Pagina3State extends State<Pagina3> {
                         ),
                       ),
                       onPressed: () {
-                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        _timer?.cancel(); // cancela o temporizador
                         Navigator.pushNamed(context, '/forth',
                             arguments: widget.feedbackData);
                       },
@@ -99,7 +99,7 @@ class _Pagina3State extends State<Pagina3> {
                         ),
                       ),
                       onPressed: () {
-                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        _timer?.cancel(); // cancela o temporizador
                         Navigator.pushNamed(context, '/sixth',
                             arguments: widget.feedbackData);
                       },

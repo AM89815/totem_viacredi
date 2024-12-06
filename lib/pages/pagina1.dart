@@ -4,17 +4,17 @@ import 'package:totem/feedbackdata.dart';
 import 'dart:async';
 
 final List<Color> buttonColors = [
-  Colors.red,
-  Colors.red,
-  Colors.orange,
-  Colors.orangeAccent,
-  Colors.orangeAccent,
-  Colors.yellow,
-  Colors.lightGreenAccent,
-  Colors.lightGreenAccent,
-  Colors.lightGreen,
-  Colors.green,
-  Colors.green,
+  Color(0xFF5B1F16),
+  Color(0xFF942A18),
+  Color(0xFFE73C22),
+  Color(0xFFEC681C),
+  Color(0xFFF39019),
+  Color(0xFFFBBA18),
+  Color(0xFFFCDA23),
+  Color(0xFFCCCC5F),
+  Color(0xFFCCCC5F),
+  Color(0xFF69B436),
+  Color(0xFF316E2E),
 ];
 
 class Pagina1 extends StatefulWidget {
@@ -72,11 +72,11 @@ class _Pagina1State extends State<Pagina1> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 200), // espaçamento superior
+              const SizedBox(height: 175), // espaçamento superior
               const Text(
                 'Em uma escala de 0 a 10, o quanto você indicaria a\nexperiência de hoje para amigos e familiares?',
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 48,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -87,7 +87,7 @@ class _Pagina1State extends State<Pagina1> {
                 children: List.generate(11, (nota) {
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: selectNota == nota
@@ -95,15 +95,18 @@ class _Pagina1State extends State<Pagina1> {
                               : buttonColors[nota],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(25),
                           ),
                           minimumSize: const Size(125, 125),
+                          maximumSize: const Size(125, 125),
                         ),
                         onPressed: () {
                           _onButtonPressed(nota);
                         },
                         child: Text(
                           '$nota',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
@@ -131,7 +134,7 @@ class _Pagina1State extends State<Pagina1> {
                 onPressed: selectNota == -1
                     ? null
                     : () {
-                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        _timer?.cancel(); // cancela o temporizador
                         Navigator.pushNamed(context, '/second',
                             arguments: widget.feedbackData);
                       },

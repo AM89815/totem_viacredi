@@ -93,7 +93,7 @@ class _Pagina2State extends State<Pagina2> {
                 ),
                 onPressed: selectEstrelas.every((estrela) => estrela > 0)
                     ? () {
-                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        _timer?.cancel(); // cancela o temporizador
                         widget.feedbackData.estrelas = selectEstrelas; // armazena as estrelas
                         Navigator.pushNamed(context, '/third', arguments: widget.feedbackData);
                       }

@@ -84,7 +84,7 @@ class _Pagina5State extends State<Pagina5> {
                         ),
                       ),
                       onPressed: () {
-                        _timer?.cancel(); // cancela o temporizador ao navegar
+                        _timer?.cancel(); // cancela o temporizador
                         widget.feedbackData.comentario = _comentarioController.text; // armazena o comentario
                         Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
                       },
