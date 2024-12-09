@@ -78,7 +78,7 @@ class _Pagina4State extends State<Pagina4> {
     int secondDigit = (sum * 10) % 11;
     if (secondDigit == 10) secondDigit = 0;
 
-    // verifica se os dígitos verificadores são válidos
+    // verifica se os dígitos são válidos
     return firstDigit == int.parse(cpf[9]) && secondDigit == int.parse(cpf[10]);
   }
 

@@ -61,8 +61,7 @@ class _Pagina3State extends State<Pagina3> {
                   style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(
-                    height: 100), // espaçamento entre o texto e os botões
+                const SizedBox(height: 100), // espaçamento entre o texto e os botões
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,8 +83,7 @@ class _Pagina3State extends State<Pagina3> {
                       },
                       child: const Text('Sim'),
                     ),
-                    const SizedBox(
-                        width: 100), // espaçamento horizontal entre os botões
+                    const SizedBox(width: 100), // espaçamento entre os botões
                     FilledButton(
                       style: FilledButton.styleFrom(
                         backgroundColor: const Color(0xFFF9A825),
