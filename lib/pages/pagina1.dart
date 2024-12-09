@@ -81,14 +81,17 @@ class _Pagina1State extends State<Pagina1> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 175), // espaçamento superior
-              const Text(
-                'Em uma escala de 0 a 10, o quanto você indicaria a\nexperiência de hoje para amigos e familiares?',
-                maxLines: 2,
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0), // Adiciona o Padding para as bordas
+                child: Text(
+                  'Em uma escala de 0 a 10, o quanto você indicaria a experiência de hoje para amigos e familiares?',
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40), // espaçamento
               Row(

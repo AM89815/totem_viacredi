@@ -36,7 +36,7 @@ class _Pagina4State extends State<Pagina4> {
             backgroundColor: Colors.red,
           ));
         });
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 2), () {
           _timer?.cancel();
           Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
         });
