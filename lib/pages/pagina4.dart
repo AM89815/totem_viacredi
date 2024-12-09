@@ -25,8 +25,21 @@ class _Pagina4State extends State<Pagina4> {
 
   void _startInatividadeTimer() {
     _timer = Timer(Duration(seconds: 10), () {
-      if (mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+      if (_isValidCPF(_cpfController.text)) {
+        widget.feedbackData.cpf = _cpfController.text; // armazena o CPF
+        Navigator.pushNamed(context, '/fifth', arguments: widget.feedbackData);
+      } else {
+        setState(() {
+          _errorMessage = 'CPF inválido. Por favor, insira um CPF válido.';
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(_errorMessage),
+            backgroundColor: Colors.red,
+          ));
+        });
+        Future.delayed(Duration(seconds: 1), () {
+          _timer?.cancel();
+          Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
+        });
       }
     });
   }
@@ -117,7 +130,8 @@ class _Pagina4State extends State<Pagina4> {
                   width: 500,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: const Color.fromRGBO(2, 119, 189, 1), width: 4.0),
+                        color: const Color.fromRGBO(2, 119, 189, 1),
+                        width: 4.0),
                     borderRadius: BorderRadius.circular(50.0),
                   ),
                   padding: const EdgeInsets.all(10.0),
@@ -127,7 +141,8 @@ class _Pagina4State extends State<Pagina4> {
                         width: double.infinity,
                         child: TextField(
                           controller: _cpfController,
-                          readOnly: true, // evita que o teclado do dispositivo apareça
+                          readOnly:
+                              true, // evita que o teclado do dispositivo apareça
                           style: const TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,

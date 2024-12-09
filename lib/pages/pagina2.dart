@@ -25,7 +25,8 @@ class _Pagina2State extends State<Pagina2> {
   void _startInatividadeTimer() {
     _timer = Timer(Duration(seconds: 5), () {
       if (mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        widget.feedbackData.estrelas = selectEstrelas; // armazena as estrelas
+        Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
       }
     });
   }

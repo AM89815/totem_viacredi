@@ -33,13 +33,22 @@ class _Pagina1State extends State<Pagina1> {
   void _startInatividadeTimer() {
     _timer = Timer(Duration(seconds: 5), () {
       if (mounted) {
-        setState(() {
-          selectNota = -1; // Reseta a seleção dos botões
-        });
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
       }
     });
   }
+
+/*
+  void _startInatividadeTimer() {
+    _timer = Timer(Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          selectNota = -1; // Reseta a seleção dos botões
+        });
+      }
+    });
+  }
+  */
 
   void _resetInatividadeTimer() {
     _timer?.cancel();
@@ -50,7 +59,6 @@ class _Pagina1State extends State<Pagina1> {
     setState(() {
       selectNota = nota;
       widget.feedbackData.nota = selectNota;
-      print('Pagina1 button pressed, selectNota: $selectNota');
     });
     _resetInatividadeTimer();
   }
@@ -75,6 +83,7 @@ class _Pagina1State extends State<Pagina1> {
               const SizedBox(height: 175), // espaçamento superior
               const Text(
                 'Em uma escala de 0 a 10, o quanto você indicaria a\nexperiência de hoje para amigos e familiares?',
+                maxLines: 2,
                 style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
@@ -90,6 +99,7 @@ class _Pagina1State extends State<Pagina1> {
                       padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
                           backgroundColor: selectNota == nota
                               ? Colors.grey
                               : buttonColors[nota],
@@ -108,7 +118,7 @@ class _Pagina1State extends State<Pagina1> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 40,
+                            fontSize: 72,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -136,7 +146,7 @@ class _Pagina1State extends State<Pagina1> {
                     : () {
                         _timer?.cancel(); // cancela o temporizador
                         Navigator.pushNamed(context, '/second',
-                            arguments: widget.feedbackData);
+                            arguments: widget.feedbackData); // armazena a nota
                       },
                 child: const Text('Enviar'),
               ),

@@ -14,18 +14,22 @@ class Pagina5 extends StatefulWidget {
 
 class _Pagina5State extends State<Pagina5> {
   final TextEditingController _comentarioController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     _startInatividadeTimer();
+    _focusNode.addListener(_resetInatividadeTimer);
+    _comentarioController.addListener(_resetInatividadeTimer);
   }
 
   void _startInatividadeTimer() {
-    _timer = Timer(Duration(seconds: 60), () {
+    _timer = Timer(Duration(seconds: 30), () {
       if (mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        widget.feedbackData.comentario = _comentarioController.text; // armazena o comentario
+        Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
       }
     });
   }
@@ -37,6 +41,10 @@ class _Pagina5State extends State<Pagina5> {
 
   @override
   void dispose() {
+    _focusNode.removeListener(_resetInatividadeTimer);
+    _comentarioController.removeListener(_resetInatividadeTimer);
+    _focusNode.dispose();
+    _comentarioController.dispose();
     _timer?.cancel();
     super.dispose();
   }
@@ -100,6 +108,7 @@ class _Pagina5State extends State<Pagina5> {
                   ),
                   child: TextField(
                     controller: _comentarioController,
+                    focusNode: _focusNode,
                     maxLines: 7,
                     style: const TextStyle(fontSize: 28),
                     decoration: InputDecoration(

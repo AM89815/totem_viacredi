@@ -24,7 +24,7 @@ class _Pagina3State extends State<Pagina3> {
   void _startInatividadeTimer() {
     _timer = Timer(Duration(seconds: 5), () {
       if (mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
       }
     });
   }
@@ -80,8 +80,7 @@ class _Pagina3State extends State<Pagina3> {
                       ),
                       onPressed: () {
                         _timer?.cancel(); // cancela o temporizador
-                        Navigator.pushNamed(context, '/forth',
-                            arguments: widget.feedbackData);
+                        Navigator.pushNamed(context, '/forth', arguments: widget.feedbackData);
                       },
                       child: const Text('Sim'),
                     ),
@@ -100,8 +99,7 @@ class _Pagina3State extends State<Pagina3> {
                       ),
                       onPressed: () {
                         _timer?.cancel(); // cancela o temporizador
-                        Navigator.pushNamed(context, '/sixth',
-                            arguments: widget.feedbackData);
+                        Navigator.pushNamed(context, '/sixth', arguments: widget.feedbackData);
                       },
                       child: const Text('Não'),
                     ),

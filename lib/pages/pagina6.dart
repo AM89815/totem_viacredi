@@ -39,7 +39,7 @@ class _Pagina6State extends State<Pagina6> {
       'comentario': widget.feedbackData.comentario,
       'timestamp': FieldValue.serverTimestamp(),
     }).then((value) {
-      print("Dados coletados com sucesso");
+      print("Dados coletados com sucesso!");
     }).catchError((error) {
       print("Falha ao coletar os dados: $error");
     });
