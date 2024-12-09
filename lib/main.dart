@@ -50,10 +50,9 @@ página 6, essa página também tem um timer de inatividade que te manda pra pá
 
 PÁGINAS 4 E 5:
   As páginas 4 e 5 contém informações mais sensíveis: um cpf que precisa ser validado por uma equação
-e um comentário atrelado ao cpf, por isso essas informações só podem ser enviadas depois que o usuário
-apertar o botão de enviar, o usúario não precisa enviar um comentário caso tenha inserido seu cpf,
-mas é teoricamente impossível enviar um comentário sem ter inserido o cpf, as duas páginas também
-tem um timer de inatividade.
+e um comentário atrelado ao cpf, o timer de inatividade só enviará o cpf caso ele seja válido, o usúario
+não precisa enviar um comentário caso tenha inserido seu cpf, mas é teoricamente impossível enviar um
+comentário sem ter inserido o cpf.
 
 PÁGINA 6:
   Como dito no resumo, a página 6 é onde todas as informações do usuário são enviadas ao firebase,
